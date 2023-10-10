@@ -1,19 +1,15 @@
+const mongoose = require('mongoose');
 
-const MongoClient = require('mongodb').MongoClient;
-const dbName = 'departments_db';
-const url = 'mongodb://localhost:27017/';
+/* const dbName = 'departments_db'; */
+const url = 'mongodb://localhost:27017/departments_db';
 
-async function connectToMongoDB() {
-    try {
-      const client = await MongoClient.connect(url, { useNewUrlParser: true });
-      console.log('Connecté à MongoDB');
-  
-      const db = client.db(dbName);
-  
-      module.exports = { client, db };
-    } catch (err) {
-      console.error('Erreur de connexion à MongoDB :', err);
-    }
-  }
-  connectToMongoDB();
+mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => {
+    console.log('Connecté à MongoDB');
+  })
+  .catch((err) => {
+    console.error('Erreur de connexion à MongoDB :', err);
+  });
+
+module.exports = mongoose.connection;
 
